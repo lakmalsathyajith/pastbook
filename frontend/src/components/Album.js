@@ -1,21 +1,23 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {Link} from "react-router-dom";
+import RGL, {WidthProvider} from "react-grid-layout";
 
 import flatten from "lodash/flatten";
 import find from "lodash/find";
 import map from "lodash/map";
 
-import RGL, {WidthProvider} from "react-grid-layout";
+import {saveAlbum} from "../actions/photoActions";
+
 const ReactGridLayout = WidthProvider(RGL);
 
-class Album extends Component {
+class Album extends PureComponent {
 
     static defaultProps = {
         className: "layout",
         items: 9,
-        rowHeight: 30,
-        onLayoutChange: function () {
-        },
+        rowHeight: 60,
         cols: 12
     };
 
@@ -43,7 +45,7 @@ class Album extends Component {
     }
 
     generateLayout() {
-        const p = this.props;
+
         const {selectedImages, rowHeight} = this.props;
         const layouts = [];
         selectedImages.forEach(function (item, i) {
@@ -61,26 +63,33 @@ class Album extends Component {
         return layouts;
     }
 
-    onLayoutChange(layout) {
-        this.props.onLayoutChange(layout);
+    onLayoutChange = (layout) => {
+        this.setState({layout})
+    }
+
+    handleSaveClick = (e) => {
+        const {layout} = this.state;
+        const {saveAlbum} = this.props;
+        saveAlbum(JSON.stringify(layout));
     }
 
     render() {
-        // layout is an array of objects, see the demo for more complete usage
-        const layout = [
-            {i: 'a', x: 0, y: 0, w: 1, h: 2, static: true},
-            {i: 'b', x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4},
-            {i: 'c', x: 4, y: 0, w: 1, h: 2}
-        ];
-        return (
 
-            <ReactGridLayout
-                layout={this.state.layout}
-                onLayoutChange={this.onLayoutChange}
-                {...this.props}
-            >
-                {this.generateDOM()}
-            </ReactGridLayout>
+        return (
+            <div className="album-container">
+                <ReactGridLayout
+                    layout={this.state.layout}
+                    onLayoutChange={this.onLayoutChange}
+                    {...this.props}>
+                    {this.generateDOM()}
+                </ReactGridLayout>
+                <Link to={"/"}>
+                    <div className="fab prev fa fa-arrow-circle-left"></div>
+                </Link>
+                <button onClick={() => this.handleSaveClick()}>
+                    <div className="fab fa fa-folder"></div>
+                </button>
+            </div>
         )
     }
 }
@@ -92,4 +101,10 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(Album);
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        saveAlbum
+    }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Album);

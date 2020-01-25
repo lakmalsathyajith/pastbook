@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import {Link} from "react-router-dom";
 import map from 'lodash/map';
 
-import {getGalleryImages, setSelections} from "../actions/photoActions";
+import {getGalleryImages, setSelections, saveAlbum} from "../actions/photoActions";
 
 class Gallery extends Component {
 
@@ -14,18 +14,15 @@ class Gallery extends Component {
 
     onGalleryImageClick = (e, imageId) => {
 
-        let myImg = e.target;
-        let currWidth = myImg.clientWidth;
-        let currHeight = myImg.clientHeight;
-        //alert("Current width=" + currWidth + ", " + "Original height=" + currHeight);
-
+        let img = e.target;
+        let currWidth = img.clientWidth;
+        let currHeight = img.clientHeight;
         const imageProps = {
             id :imageId,
             width:currWidth,
             height : currHeight
         }
         this.props.setSelections(imageProps);
-
     }
 
     render() {
@@ -42,7 +39,7 @@ class Gallery extends Component {
                         <img src={image.picture} style={{"width": "100%"}} alt=""/>
                         {(selectedImageIndex !== -1) ?
                             <div className="text">
-                            <h1>{selectedImageIndex + 1}</h1>
+                            <span className="gallery-check fa fa-check">{/*{selectedImageIndex + 1}*/}</span>
                         </div> : null}
                     </div>
                 )
@@ -55,10 +52,11 @@ class Gallery extends Component {
             )
         });
 
+
         return (
             <div className="row">
                 {renderImages}
-                <Link to={"album"}><div className="fab"> + </div></Link>
+                <Link to={"album"}><div className="fab fa fa-arrow-circle-right"/></Link>
             </div>
         );
     }
@@ -74,7 +72,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         getGalleryImages,
-        setSelections
+        setSelections,
+        saveAlbum
     }, dispatch)
 }
 
