@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {SET_VISIBILITY_FILTER, SET_ALBUM_IMAGE} from "./types";
+import {SET_VISIBILITY_FILTER, SET_ALBUM_IMAGE, SET_ALBUM_LAYOUT} from "./types";
 import {getFingerPrint} from "../utils/helper";
 
 /**
@@ -41,12 +41,32 @@ export const setSelections = (selectedImage) => (dispatch) => {
 /**
  * Save album for the active fingerprint
  */
-export const saveAlbum = (layout) => (dispatch) => {
+export const saveAlbum = (images, layout) => (dispatch) => {
 
     getFingerPrint().then((r) => {
             const fingerprint = r.result;
-            return axios.post(`http://localhost:8000/pastbook`, {fingerprint, layout})
+            return axios.post(`http://localhost:8000/pastbook/album`, {fingerprint, images, layout})
                 .then(res => {
+                })
+                .catch((e) => {
+                    console.log('----error----', e);
+                });
+        }
+    );
+}
+
+/**
+ * Get album for the given fingerprint.
+ * Restore saved image set and the layout
+ */
+export const getAlbum = () => (dispatch) => {
+
+    getFingerPrint().then((r) => {
+            const fingerprint = r.result;
+            return axios.get(`http://localhost:8000/pastbook/album/${fingerprint}`, {})
+                .then(res => {
+                    if(res.data && res.data.data)
+                       return dispatch({type: SET_ALBUM_LAYOUT, payload: res.data.data});
                 })
                 .catch((e) => {
                     console.log('----error----', e);

@@ -1,25 +1,23 @@
 var Session = require('../models/session')
 
-exports.get = async function(query, page, limit) {
-
+exports.get = async function(params) {
     try {
-        //var Sessions = await Session.find(query)
-        var user = new Session({title: "hi sathya"});
 
+        var Sessions = await Session.findOne({fingerprint: params.id});
 
-        return user.save();
+        return Sessions;
     } catch (e) {
-        // Log Errors
+
         throw Error('Error while Paginating Users' + e)
     }
 }
 
 exports.save = async function(params) {
     try {
-        //var user = new Session();
+
         var result =  await Session.update(
-            {fingerprint: params.figerprint},
-            {fingerprint: params.figerprint, layout: JSON.parse(params.layout)},
+            {fingerprint: params.fingerprint},
+            {fingerprint: params.fingerprint, images:JSON.parse(params.images), layout:JSON.parse(params.layout)},
             {upsert: true}
         );
 

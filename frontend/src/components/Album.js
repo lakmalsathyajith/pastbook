@@ -4,11 +4,9 @@ import {bindActionCreators} from 'redux';
 import {Link} from "react-router-dom";
 import RGL, {WidthProvider} from "react-grid-layout";
 
-import flatten from "lodash/flatten";
-import find from "lodash/find";
-import map from "lodash/map";
-
-import {saveAlbum} from "../actions/photoActions";
+import {saveAlbum, getAlbum} from "../actions/photoActions";
+import {getFilestackProcessedImage} from "../utils/helper";
+import {IMAGE_PROPERTIES} from "../utils/constants";
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -17,7 +15,7 @@ class Album extends PureComponent {
     static defaultProps = {
         className: "layout",
         items: 9,
-        rowHeight: 60,
+        rowHeight: 30,
         cols: 12
     };
 
@@ -27,16 +25,27 @@ class Album extends PureComponent {
         this.state = {layout};
     }
 
+    componentDidMount(){
+        if(!this.props.selectedImages.length > 0){
+            this.props.getAlbum()
+        }
+
+    }
+
+    componentDidUpdate(prevProps, prevState){
+
+        const {layouts} = this.props;
+        if(prevProps.layouts !== layouts){
+            this.onLayoutChange(layouts);
+        }
+    }
+
     generateDOM() {
 
-        const {images, selectedImages} = this.props;
-        const selectedImageIds = map(selectedImages, 'id');
-
-        let allImages = flatten(images);
-        const domElements = selectedImageIds.map((image, i) => {
-            let imageItem = find(allImages, ['id', image]);
+        const {selectedImages} = this.props;
+        const domElements = selectedImages.map((image, i) => {
             return <div key={i}>
-                <img src={imageItem.picture} style={{"width": "100%"}} alt=""/>
+                <img src={getFilestackProcessedImage(image.picture, IMAGE_PROPERTIES)} style={{"width": "100%"}} alt=""/>
             </div>
 
         });
@@ -50,7 +59,6 @@ class Album extends PureComponent {
         const layouts = [];
         selectedImages.forEach(function (item, i) {
             const y = Math.ceil(item.height / rowHeight) + 1;
-
             layouts.push({
                 x: (i * 4) % 12,
                 y: Math.floor(i / 3) * y,
@@ -69,8 +77,8 @@ class Album extends PureComponent {
 
     handleSaveClick = (e) => {
         const {layout} = this.state;
-        const {saveAlbum} = this.props;
-        saveAlbum(JSON.stringify(layout));
+        const {saveAlbum, selectedImages} = this.props;
+        saveAlbum(JSON.stringify(selectedImages), JSON.stringify(layout));
     }
 
     render() {
@@ -97,13 +105,15 @@ class Album extends PureComponent {
 const mapStateToProps = (state) => {
     return {
         images: state.gallery.images,
-        selectedImages: state.album.selectedImages
+        selectedImages: state.album.selectedImages,
+        layouts: state.album.layouts,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        saveAlbum
+        saveAlbum,
+        getAlbum
     }, dispatch)
 }
 
