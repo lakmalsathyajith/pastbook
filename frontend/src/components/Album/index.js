@@ -113,7 +113,10 @@ class Album extends PureComponent {
                     {...this.props}>
                     {this.generateDOM()}
                 </ReactGridLayout>
-                <Link to={"/"}>
+                <Link to={{
+                    pathname: '/',
+                    state: {from: "album"}
+                }}>
                     <div className="fab prev fa fa-arrow-circle-left"></div>
                 </Link>
                 <button onClick={() => this.handleSaveClick()}>
@@ -121,7 +124,7 @@ class Album extends PureComponent {
                 </button>
                 {(notification) ? <span class="message-bar fa fa-check">
                     <strong>Saved!</strong>
-                </span>: null}
+                </span> : null}
             </div>
         )
     }

@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Link} from "react-router-dom";
 import map from 'lodash/map';
+import { createBrowserHistory as createHistory } from "history";
 
 import {getGalleryImages, setSelections} from "./actions";
 import {getAlbum} from "../Album/actions";
@@ -16,11 +17,26 @@ import './style.css'
  */
 class Gallery extends Component {
 
+
+    constructor(props) {
+        super(props);
+        this.state = {};
+        const {location} = props;
+        const fingerprint = localStorage.getItem("fingerprint");
+        if(!(location.state && location.state.from) && fingerprint){
+            props.history.push('/album');
+        }
+    }
+
     componentDidMount() {
 
-        console.log('mounted')
+        const history = createHistory();
+        if (history.location && history.location.state && history.location.state.from) {
+            const state = { ...history.location.state };
+            delete state.from;
+            history.replace({ ...history.location, state });
+        }
         this.props.getGalleryImages();
-        this.props.getAlbum();
     }
 
     onGalleryImageClick = (e, {id, picture}) => {

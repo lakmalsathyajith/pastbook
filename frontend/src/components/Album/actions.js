@@ -15,6 +15,7 @@ export const saveAlbum = (images, layout) => (dispatch) => {
             const fingerprint = r.result;
             return axios.post(API_URL+`/album`, {fingerprint, images, layout})
                 .then(res => {
+                    localStorage.setItem('fingerprint', fingerprint);
                     dispatch(notification(SUCCESS_NOTIFICATION));
                 })
                 .catch((e) => {
