@@ -1,0 +1,2 @@
+export const SET_ALBUM_LAYOUT = "SET_ALBUM_LAYOUT";
+export const SET_ALBUM_IMAGE = "SET_ALBUM_IMAGE";

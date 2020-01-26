@@ -55,15 +55,6 @@ body {
   padding: 32px;
 }
 
-.row {
-  display: -ms-flexbox; /* IE10 */
-  display: flex;
-  -ms-flex-wrap: wrap; /* IE10 */
-  flex-wrap: wrap;
-  min-height: 100vh;
-  padding: 0 4px;
-}
-
 /* Create four equal columns that sits next to each other */
 .column {
   -ms-flex: 25%; /* IE10 */
@@ -96,35 +87,6 @@ body {
   }
 }
 
-.album-container{
-  margin: 10% 10% 10% 10%;
-  border: solid;
-}
-
-.box{
-  position: relative;
-  display: inline-block; /* Make the width of box same as image */
-}
-.box .text{
-  position: absolute;
-  z-index: 999;
-  margin: 0 auto;
-  border-radius: 50%;
-  text-align: center;
-  top: 5%; /* Adjust this value to move the positioned div up and down */
-  left:85%;
-  background: rgba(0, 0, 0, 1);
-  font-family: Arial,sans-serif;
-  color: #fff;
-  width: 30px; /* Set the width of the positioned div */
-  height: 30px;
-}
-
-.gallery-check{
-  margin-top: 23%;
-}
-
-
 .fab {
   width: 70px;
   height: 70px;
@@ -153,27 +115,6 @@ body {
   margin-right: 80px!important;
 }
 
-.disable-link {
-  pointer-events: none;
-  border: 1px solid #999999;
-  background-color: #9a3939;
-  color: #666666;
-}
 
-.message-bar{
-  width: auto;
-  height: auto;
-  background-color: #e2dad7;
-  /* border-radius: 50%; */
-  box-shadow: 0 6px 10px 0 #666;
-  transition: all 0.1s ease-in-out;
-  /* background-image: url(images/open.png); */
-  font-size: 24px;
-  color: #ecb436;
-  text-align: center;
-  line-height: 51px;
-  position: fixed;
-  opacity: 0.8;
-  right: 15%;
-  bottom: 17%
-}
+
+

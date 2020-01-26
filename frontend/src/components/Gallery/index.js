@@ -4,9 +4,11 @@ import {bindActionCreators} from 'redux';
 import {Link} from "react-router-dom";
 import map from 'lodash/map';
 
-import {getGalleryImages, setSelections, saveAlbum} from "../actions/photoActions";
-import {getFilestackProcessedImage} from "../utils/helper";
-import {ALLOWED_NUMBER_OF_IMAGES, IMAGE_PROPERTIES} from "../utils/constants";
+import {getGalleryImages, setSelections} from "./actions";
+import {getFilestackProcessedImage} from "../../utils/helper";
+import {ALLOWED_NUMBER_OF_IMAGES, IMAGE_PROPERTIES} from "../../utils/constants";
+
+import './style.css'
 
 /**
  * Displaying all the images from the data source in an unorganized grid
@@ -92,8 +94,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         getGalleryImages,
-        setSelections,
-        saveAlbum
+        setSelections
     }, dispatch)
 }
 

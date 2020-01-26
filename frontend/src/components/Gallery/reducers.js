@@ -1,6 +1,6 @@
 import {
     SET_IMAGE_BUCKETS
-} from '../actions/types';
+} from './creators';
 
 const initialState = {
     images : []

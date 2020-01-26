@@ -4,9 +4,11 @@ import {bindActionCreators} from 'redux';
 import {Link} from "react-router-dom";
 import RGL, {WidthProvider} from "react-grid-layout";
 
-import {saveAlbum, getAlbum} from "../actions/photoActions";
-import {getFilestackProcessedImage} from "../utils/helper";
-import {IMAGE_PROPERTIES} from "../utils/constants";
+import {saveAlbum, getAlbum} from "./actions";
+import {getFilestackProcessedImage} from "../../utils/helper";
+import {IMAGE_PROPERTIES} from "../../utils/constants";
+
+import './style.css'
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -40,6 +42,9 @@ class Album extends PureComponent {
         }
     }
 
+    /**
+     * Create the dom elements, resizing, using the selected image set
+     */
     generateDOM() {
 
         const {selectedImages} = this.props;
@@ -53,6 +58,10 @@ class Album extends PureComponent {
         return domElements;
     }
 
+    /**
+     * Generate the album image grid layout using selected image set
+     * @returns {Array}
+     */
     generateLayout() {
 
         const {selectedImages, rowHeight} = this.props;
@@ -71,10 +80,18 @@ class Album extends PureComponent {
         return layouts;
     }
 
+    /**
+     * On re-arranging the images, layout changes, updating state with the latest layout
+     * @param layout
+     */
     onLayoutChange = (layout) => {
         this.setState({layout})
     }
 
+    /**
+     * On save button clicks save the current images with the layout
+     * @param e
+     */
     handleSaveClick = (e) => {
         const {layout} = this.state;
         const {saveAlbum, selectedImages} = this.props;
@@ -112,7 +129,7 @@ const mapStateToProps = (state) => {
         images: state.gallery.images,
         selectedImages: state.album.selectedImages,
         layouts: state.album.layouts,
-        notification: state.album.notification,
+        notification: state.common.notification,
     }
 }
 

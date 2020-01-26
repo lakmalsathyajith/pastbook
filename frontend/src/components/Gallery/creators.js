@@ -1,0 +1,1 @@
+export const SET_IMAGE_BUCKETS = "SET_IMAGE_BUCKETS";

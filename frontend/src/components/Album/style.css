@@ -1,0 +1,22 @@
+.album-container{
+    margin: 10% 10% 10% 10%;
+    border: solid;
+}
+
+.message-bar{
+    width: auto;
+    height: auto;
+    background-color: #e2dad7;
+    /* border-radius: 50%; */
+    box-shadow: 0 6px 10px 0 #666;
+    transition: all 0.1s ease-in-out;
+    /* background-image: url(images/open.png); */
+    font-size: 24px;
+    color: #ecb436;
+    text-align: center;
+    line-height: 51px;
+    position: fixed;
+    opacity: 0.8;
+    right: 15%;
+    bottom: 17%
+}
