@@ -2,12 +2,14 @@
 import xorBy from 'lodash/xorBy';
 import {
     SET_ALBUM_IMAGE,
-    SET_ALBUM_LAYOUT
+    SET_ALBUM_LAYOUT,
+    SET_NOTIFICATION
 } from '../actions/types';
 
 const initialState = {
     selectedImages : [],
-    layouts:[]
+    layouts:[],
+    notification : null
 }
 
 export default function album(state = initialState, action) {
@@ -20,6 +22,9 @@ export default function album(state = initialState, action) {
         case SET_ALBUM_LAYOUT:
 
             return {...state, selectedImages:action.payload.images, layouts: [...action.payload.layout]}
+        case SET_NOTIFICATION:
+
+            return {...state, notification:action.payload}
         default:
             return state
     }

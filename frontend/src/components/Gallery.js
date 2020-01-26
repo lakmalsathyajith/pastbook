@@ -6,30 +6,37 @@ import map from 'lodash/map';
 
 import {getGalleryImages, setSelections, saveAlbum} from "../actions/photoActions";
 import {getFilestackProcessedImage} from "../utils/helper";
-import {IMAGE_PROPERTIES} from "../utils/constants";
+import {ALLOWED_NUMBER_OF_IMAGES, IMAGE_PROPERTIES} from "../utils/constants";
 
+/**
+ * Displaying all the images from the data source in an unorganized grid
+ */
 class Gallery extends Component {
 
     componentDidMount() {
         this.props.getGalleryImages();
     }
 
-
     onGalleryImageClick = (e, {id, picture}) => {
 
-        let img = e.target;
-        let currWidth = img.clientWidth;
-        let currHeight = img.clientHeight;
+        const {selectedImages} = this.props;
+        const img = e.target;
+        const currWidth = img.clientWidth;
+        const currHeight = img.clientHeight;
         const imageProps = {
             id,
             picture,
             width:currWidth,
             height : currHeight
         }
-        this.props.setSelections(imageProps);
+        const selectedImageIds = map(selectedImages, 'id');
+
+        if((selectedImageIds.indexOf(id)!==-1) || (selectedImages.length<ALLOWED_NUMBER_OF_IMAGES)){
+            this.props.setSelections(imageProps);
+        }
     }
 
-    render() {
+    renderImages = () => {
 
         const {images, selectedImages} = this.props;
         const selectedImageIds = map(selectedImages, 'id');
@@ -44,8 +51,8 @@ class Gallery extends Component {
                         <img src={getFilestackProcessedImage(image.picture,IMAGE_PROPERTIES)} style={{"width": "100%"}} alt=""/>
                         {(selectedImageIndex !== -1) ?
                             <div className="text">
-                            <span className="gallery-check fa fa-check"></span>
-                        </div> : null}
+                                <span className="gallery-check fa fa-check"></span>
+                            </div> : null}
                     </div>
                 )
             });
@@ -57,10 +64,19 @@ class Gallery extends Component {
             )
         });
 
+        return renderImages;
+    }
+
+    render() {
+
+        const {selectedImages} = this.props;
+        const threshold = ALLOWED_NUMBER_OF_IMAGES-(selectedImages.length);
+
         return (
             <div className="row">
-                {renderImages}
-                <Link to={"album"}><div className="fab fa fa-arrow-circle-right"/></Link>
+                {this.renderImages()}
+                <Link to={"album"}><div className={(threshold>0) ? "fab fa fa-arrow-circle-right disable-link" : "fab fa fa-arrow-circle-right"}/></Link>
+                <span className="fab prev">{threshold}</span>
             </div>
         );
     }

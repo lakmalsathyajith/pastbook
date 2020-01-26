@@ -1,7 +1,7 @@
 
 import { combineReducers } from 'redux';
 
-import gallery from './galleryaReducer'
+import gallery from './galleryReducer'
 import album from './albumReducer'
 export default combineReducers({
     gallery,

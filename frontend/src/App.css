@@ -153,3 +153,27 @@ body {
   margin-right: 80px!important;
 }
 
+.disable-link {
+  pointer-events: none;
+  border: 1px solid #999999;
+  background-color: #9a3939;
+  color: #666666;
+}
+
+.message-bar{
+  width: auto;
+  height: auto;
+  background-color: #e2dad7;
+  /* border-radius: 50%; */
+  box-shadow: 0 6px 10px 0 #666;
+  transition: all 0.1s ease-in-out;
+  /* background-image: url(images/open.png); */
+  font-size: 24px;
+  color: #ecb436;
+  text-align: center;
+  line-height: 51px;
+  position: fixed;
+  opacity: 0.8;
+  right: 15%;
+  bottom: 17%
+}

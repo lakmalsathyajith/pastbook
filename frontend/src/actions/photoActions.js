@@ -1,6 +1,10 @@
 import axios from 'axios';
-import {SET_VISIBILITY_FILTER, SET_ALBUM_IMAGE, SET_ALBUM_LAYOUT} from "./types";
+import {SET_IMAGE_BUCKETS, SET_ALBUM_IMAGE, SET_ALBUM_LAYOUT, SET_NOTIFICATION} from "./types";
 import {getFingerPrint} from "../utils/helper";
+import {API_URL} from "../utils/constants";
+
+const SUCCESS_NOTIFICATION = "success";
+const ERROR_NOTIFICATION = "error";
 
 /**
  * Retrieve all the images from the data source
@@ -19,7 +23,7 @@ export const getGalleryImages = () => (dispatch) => {
                 buckets[bucket].push(obj);
             })
 
-            return dispatch({type: SET_VISIBILITY_FILTER, payload: buckets});
+            return dispatch({type: SET_IMAGE_BUCKETS, payload: buckets});
         })
         .catch((e) => {
             console.log('----error----', e);
@@ -45,10 +49,12 @@ export const saveAlbum = (images, layout) => (dispatch) => {
 
     getFingerPrint().then((r) => {
             const fingerprint = r.result;
-            return axios.post(`http://localhost:8000/pastbook/album`, {fingerprint, images, layout})
+            return axios.post(API_URL+`/album`, {fingerprint, images, layout})
                 .then(res => {
+                    dispatch(notification(SUCCESS_NOTIFICATION));
                 })
                 .catch((e) => {
+                    dispatch(notification(ERROR_NOTIFICATION));
                     console.log('----error----', e);
                 });
         }
@@ -63,7 +69,7 @@ export const getAlbum = () => (dispatch) => {
 
     getFingerPrint().then((r) => {
             const fingerprint = r.result;
-            return axios.get(`http://localhost:8000/pastbook/album/${fingerprint}`, {})
+            return axios.get(API_URL+`/album/${fingerprint}`, {})
                 .then(res => {
                     if(res.data && res.data.data)
                        return dispatch({type: SET_ALBUM_LAYOUT, payload: res.data.data});
@@ -73,4 +79,21 @@ export const getAlbum = () => (dispatch) => {
                 });
         }
     );
+}
+
+export const notification = (type) => (dispatch) => {
+
+    let notification = {};
+
+    switch (type) {
+        case SUCCESS_NOTIFICATION :
+            notification = {type: SUCCESS_NOTIFICATION, message: "Success"}
+            break;
+        case ERROR_NOTIFICATION :
+            notification = {type: ERROR_NOTIFICATION, message: "Error"}
+            break;
+    }
+    dispatch({type: SET_NOTIFICATION, payload: notification});
+
+    setTimeout(() => { dispatch({type: SET_NOTIFICATION})}, 3000);
 }

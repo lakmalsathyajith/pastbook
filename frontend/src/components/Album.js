@@ -83,6 +83,8 @@ class Album extends PureComponent {
 
     render() {
 
+        const {notification} = this.props;
+
         return (
             <div className="album-container">
                 <ReactGridLayout
@@ -97,6 +99,9 @@ class Album extends PureComponent {
                 <button onClick={() => this.handleSaveClick()}>
                     <div className="fab fa fa-folder"></div>
                 </button>
+                {(notification) ? <span class="message-bar fa fa-check">
+                    <strong>Saved!</strong>
+                </span>: null}
             </div>
         )
     }
@@ -107,6 +112,7 @@ const mapStateToProps = (state) => {
         images: state.gallery.images,
         selectedImages: state.album.selectedImages,
         layouts: state.album.layouts,
+        notification: state.album.notification,
     }
 }
 

@@ -1,5 +1,5 @@
 import {
-    SET_VISIBILITY_FILTER
+    SET_IMAGE_BUCKETS
 } from '../actions/types';
 
 const initialState = {
@@ -10,7 +10,7 @@ export default function gallery(state = initialState, action) {
 
     switch (action.type) {
 
-        case SET_VISIBILITY_FILTER:
+        case SET_IMAGE_BUCKETS:
             return {...state, images: action.payload}
         default:
             return state
