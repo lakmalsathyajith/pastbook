@@ -12,6 +12,9 @@ import './style.css'
 
 const ReactGridLayout = WidthProvider(RGL);
 
+/**
+ * Render the user selected album in a flexible grid.
+ */
 class Album extends PureComponent {
 
     static defaultProps = {
@@ -49,7 +52,7 @@ class Album extends PureComponent {
 
         const {selectedImages} = this.props;
         const domElements = selectedImages.map((image, i) => {
-            return <div key={i}>
+            return <div key={i}  className="album-element">
                 <img src={getFilestackProcessedImage(image.picture, IMAGE_PROPERTIES)} style={{"width": "100%"}} alt=""/>
             </div>
 

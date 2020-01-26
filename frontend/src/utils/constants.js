@@ -1,4 +1,5 @@
 
+export const IMAGE_API_URL = "https://dev-pb-apps.s3-eu-west-1.amazonaws.com/collection/CHhASmTpKjaHyAsSaauThRqMMjWanYkQ.json";
 export const API_URL = "http://localhost:8000/pastbook";
 
 export const IMAGE_PROPERTIES = {

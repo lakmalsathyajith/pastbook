@@ -1,13 +1,14 @@
 import axios from 'axios';
 import {SET_IMAGE_BUCKETS} from "./creators";
 import {SET_ALBUM_IMAGE} from "../Album/creators";
+import {IMAGE_API_URL} from "../../utils/constants";
 
 /**
  * Retrieve all the images from the data source
  */
 export const getGalleryImages = () => (dispatch) => {
 
-    return axios.get(`https://dev-pb-apps.s3-eu-west-1.amazonaws.com/collection/CHhASmTpKjaHyAsSaauThRqMMjWanYkQ.json`)
+    return axios.get(IMAGE_API_URL)
         .then(res => {
 
             const buckets = [];

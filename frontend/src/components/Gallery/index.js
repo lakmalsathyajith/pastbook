@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import map from 'lodash/map';
 
 import {getGalleryImages, setSelections} from "./actions";
+import {getAlbum} from "../Album/actions";
 import {getFilestackProcessedImage} from "../../utils/helper";
 import {ALLOWED_NUMBER_OF_IMAGES, IMAGE_PROPERTIES} from "../../utils/constants";
 
@@ -16,7 +17,10 @@ import './style.css'
 class Gallery extends Component {
 
     componentDidMount() {
+
+        console.log('mounted')
         this.props.getGalleryImages();
+        this.props.getAlbum();
     }
 
     onGalleryImageClick = (e, {id, picture}) => {
@@ -94,7 +98,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         getGalleryImages,
-        setSelections
+        setSelections,
+        getAlbum
     }, dispatch)
 }
 

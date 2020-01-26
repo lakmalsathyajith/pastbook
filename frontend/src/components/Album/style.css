@@ -18,5 +18,9 @@
     position: fixed;
     opacity: 0.8;
     right: 15%;
-    bottom: 17%
+    bottom: 13%
+}
+
+.album-element{
+    border-style:solid;
 }
