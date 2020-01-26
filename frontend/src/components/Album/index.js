@@ -122,7 +122,7 @@ class Album extends PureComponent {
                 <button onClick={() => this.handleSaveClick()}>
                     <div className="fab fa fa-folder"></div>
                 </button>
-                {(notification) ? <span class="message-bar fa fa-check">
+                {(notification) ? <span className="message-bar fa fa-check">
                     <strong>Saved!</strong>
                 </span> : null}
             </div>
