@@ -1,7 +1,12 @@
 # Technical evaluation test
 
-The project scope to list all the images from a given image repository and allow users to select 9 photos from them,
+The project scope is to list all the images from a given image repository and allow users to select 9 photos from them,
 Later they can create an album in desired order
+
+# Technologies used
+
+ReactJs , Redux, NodeJs, expressJs and mongoDB with mongoose ODM
+
 
 # How to run
 
